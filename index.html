@@ -1,0 +1,2253 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Aman - Data Analyst </title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    /* ============================================================
+   CSS VARIABLES & RESET
+============================================================ */
+    :root {
+      --accent: #00d4aa;
+      --accent2: #0099ff;
+      --accent-glow: rgba(0, 212, 170, 0.25);
+
+      /* Dark theme */
+      --bg: #0a0d14;
+      --bg2: #0f1420;
+      --bg3: #151c2c;
+      --card: #111827;
+      --card-border: rgba(255, 255, 255, 0.07);
+      --text: #e8edf5;
+      --text2: #8b97b0;
+      --text3: #4a566e;
+      --nav-bg: rgba(10, 13, 20, 0.88);
+      --shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+      --toggle-bg: #1e2a3a;
+    }
+
+    [data-theme="light"] {
+      --bg: #f4f7fc;
+      --bg2: #eef2fa;
+      --bg3: #e5eaf5;
+      --card: #ffffff;
+      --card-border: rgba(0, 0, 0, 0.08);
+      --text: #111827;
+      --text2: #4b5563;
+      --text3: #9ca3af;
+      --nav-bg: rgba(244, 247, 252, 0.9);
+      --shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+      --toggle-bg: #dde4f0;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    /* ============================================================
+   LIGHTBOX ACTIVE
+============================================================ */
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+
+      background: rgba(0, 0, 0, 0.92);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      opacity: 0;
+      visibility: hidden;
+
+      transition: 0.3s ease;
+
+      z-index: 9999;
+    }
+
+    .lightbox.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .lightbox-inner {
+      width: 90%;
+      max-width: 1100px;
+    }
+
+    .lightbox-img img {
+      width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+
+      background: none;
+      border: none;
+
+      color: white;
+      font-size: 2rem;
+
+      cursor: pointer;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.4s, color 0.4s;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      font-family: 'Syne', sans-serif;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      border-radius: 12px;
+      display: block;
+    }
+
+    /* ============================================================
+   UTILITY
+============================================================ */
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .section {
+      padding: 96px 0;
+    }
+
+    .section-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      color: var(--text2);
+      font-size: 1.05rem;
+      max-width: 560px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 212, 170, 0.1);
+      border: 1px solid rgba(0, 212, 170, 0.3);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      padding: 4px 12px;
+      border-radius: 100px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 28px;
+      border-radius: 10px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.25s;
+      border: none;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0a0d14;
+    }
+
+    .btn-primary:hover {
+      background: #00bfa0;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px var(--accent-glow);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1.5px solid var(--card-border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* Fade-in animation */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================================
+   NAV
+============================================================ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: var(--nav-bg);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--card-border);
+      transition: background 0.4s;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 66px;
+      padding: 0 24px;
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-logo span {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text2);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* Theme toggle */
+    .theme-toggle {
+      width: 48px;
+      height: 26px;
+      background: var(--toggle-bg);
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.3s;
+    }
+
+    .theme-toggle::after {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: var(--accent);
+      border-radius: 50%;
+      top: 4px;
+      left: 4px;
+      transition: transform 0.3s;
+    }
+
+    [data-theme="light"] .theme-toggle::after {
+      transform: translateX(22px);
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    /* Mobile nav */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 66px;
+      left: 0;
+      right: 0;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--card-border);
+      padding: 16px 24px;
+      z-index: 999;
+    }
+
+    .mobile-nav.open {
+      display: block;
+    }
+
+    .mobile-nav a {
+      display: block;
+      padding: 12px 0;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text2);
+      border-bottom: 1px solid var(--card-border);
+      transition: color 0.2s;
+    }
+
+    .mobile-nav a:hover {
+      color: var(--accent);
+    }
+
+    /* ============================================================
+   HERO
+============================================================ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: 66px;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 700px 500px at 70% 50%, rgba(0, 212, 170, 0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 500px 400px at 20% 80%, rgba(0, 153, 255, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Animated grid */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--card-border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--card-border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, black, transparent);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 60px;
+      width: 100%;
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .hero-text {}
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 212, 170, 0.08);
+      border: 1px solid rgba(0, 212, 170, 0.25);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 28px;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-badge .dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(1.4);
+      }
+    }
+
+    .hero-name {
+      font-size: clamp(2.8rem, 6vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -1.5px;
+      margin-bottom: 12px;
+    }
+
+    .hero-name .highlight {
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-title {
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: var(--text2);
+      margin-bottom: 20px;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .hero-tagline {
+      font-size: 1.05rem;
+      color: var(--text2);
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+
+    .hero-tagline strong {
+      color: var(--accent);
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 52px;
+      padding-top: 32px;
+      border-top: 1px solid var(--card-border);
+    }
+
+    .stat-item .num {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .stat-item .label {
+      font-size: 0.8rem;
+      color: var(--text3);
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+
+    /* Hero visual */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .avatar-card {
+      width: 320px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 32px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .avatar-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+
+    /* ✅ REPLACE IMAGE: Change the src in the <img> tag inside #hero-avatar to your photo URL or local file path */
+    #hero-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 20px;
+      border: 3px solid var(--accent);
+      background: var(--bg3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+
+    .avatar-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      margin-bottom: 4px;
+    }
+
+    .avatar-role {
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    .avatar-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .tool-chip {
+      background: var(--bg3);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 5px 12px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text2);
+    }
+
+    .floating-card {
+      position: absolute;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 12px 16px;
+      box-shadow: var(--shadow);
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .fc-top {
+      top: -20px;
+      right: -20px;
+      animation-delay: 0.5s;
+      font-size: 0.78rem;
+    }
+
+    .fc-bottom {
+      bottom: -20px;
+      left: -20px;
+      font-size: 0.78rem;
+      animation-delay: 1.2s;
+    }
+
+    .fc-icon {
+      color: var(--accent);
+      font-size: 1rem;
+      margin-bottom: 2px;
+    }
+
+    .fc-val {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .fc-lbl {
+      color: var(--text3);
+      font-size: 0.72rem;
+    }
+
+    /* ============================================================
+   ABOUT
+============================================================ */
+    #about {
+      background: var(--bg2);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .about-img-wrap {
+      position: relative;
+    }
+
+    /* ✅ REPLACE IMAGE: Change the src in the <img id="about-photo"> tag to your photo */
+    #about-photo {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      border-radius: 20px;
+      border: 2px solid var(--card-border);
+      background: var(--bg3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      min-height: 300px;
+    }
+
+    .about-badge-float {
+      position: absolute;
+      bottom: -18px;
+      right: -18px;
+      background: var(--accent);
+      color: #0a0d14;
+      border-radius: 14px;
+      padding: 16px 20px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .about-badge-float .yr {
+      font-size: 1.8rem;
+      display: block;
+      line-height: 1;
+    }
+
+    .about-badge-float .txt {
+      font-size: 0.7rem;
+      letter-spacing: 1px;
+    }
+
+    .about-text .section-sub {
+      max-width: 100%;
+      margin-bottom: 24px;
+    }
+
+    .about-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .about-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: var(--text2);
+      font-size: 0.95rem;
+    }
+
+    .about-list li i {
+      color: var(--accent);
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+   SKILLS
+============================================================ */
+    #skills {}
+
+    .skills-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 56px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .skill-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 28px;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 212, 170, 0.3);
+      box-shadow: 0 16px 40px rgba(0, 212, 170, 0.1);
+    }
+
+    .skill-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .skill-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(0, 212, 170, 0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+
+    .skill-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .skill-desc {
+      font-size: 0.88rem;
+      color: var(--text2);
+      margin-bottom: 18px;
+    }
+
+    .skill-bar-wrap {
+      background: var(--bg3);
+      border-radius: 100px;
+      height: 6px;
+      overflow: hidden;
+    }
+
+    .skill-bar {
+      height: 100%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      width: 0;
+      transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .skill-pct {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-align: right;
+      margin-bottom: 6px;
+    }
+
+    /* ============================================================
+   PROJECTS
+============================================================ */
+    #projects {
+      background: var(--bg2);
+    }
+
+    .projects-header {
+      margin-bottom: 56px;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ✅ REPLACE IMAGE: Find each .project-img-placeholder and change the style background or add <img> tag with your dashboard screenshot */
+    .project-img-placeholder {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--bg3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      font-size: 0.8rem;
+      color: var(--text3);
+    }
+
+    .project-img-placeholder i {
+      font-size: 2.5rem;
+      color: var(--text3);
+    }
+
+    .project-img-placeholder .img-hint {
+      font-size: 0.72rem;
+      color: var(--text3);
+      background: var(--card-border);
+      padding: 4px 12px;
+      border-radius: 6px;
+      text-align: center;
+    }
+
+    /* Decorative dashboard lines */
+    .project-img-placeholder::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40%;
+      background:
+        linear-gradient(transparent, var(--bg2)),
+        repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(0, 212, 170, 0.07) 40px, rgba(0, 212, 170, 0.07) 41px);
+    }
+
+    .img-bar-demo {
+      position: absolute;
+      bottom: 12px;
+      left: 16px;
+      right: 16px;
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 50px;
+    }
+
+    .img-bar-demo span {
+      flex: 1;
+      background: rgba(0, 212, 170, 0.3);
+      border-radius: 3px 3px 0 0;
+    }
+
+    .project-body {
+      padding: 24px;
+    }
+
+    .project-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .project-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .project-problem {
+      font-size: 0.85rem;
+      color: var(--text2);
+      margin-bottom: 16px;
+      line-height: 1.7;
+    }
+
+    .project-insights {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .project-insights li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.83rem;
+      color: var(--text2);
+    }
+
+    .project-insights li i {
+      color: var(--accent);
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+   DASHBOARD GALLERY
+============================================================ */
+    #gallery {}
+
+    .gallery-header {
+      margin-bottom: 48px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto auto;
+      gap: 16px;
+    }
+
+    /* ✅ REPLACE IMAGES: Change the background-image in each .gallery-item to your dashboard screenshot URL */
+    .gallery-item {
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid var(--card-border);
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      background: var(--card);
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.02);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .gallery-item:first-child {
+      grid-column: span 2;
+    }
+
+    .gallery-placeholder {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--bg3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--text3);
+    }
+
+    .gallery-placeholder i {
+      font-size: 2rem;
+    }
+
+    .gallery-placeholder p {
+      font-size: 0.8rem;
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(10, 13, 20, 0.9));
+      padding: 20px 16px 14px;
+      transform: translateY(100%);
+      transition: transform 0.3s;
+    }
+
+    .gallery-item:hover .gallery-overlay {
+      transform: translateY(0);
+    }
+
+    .gallery-overlay p {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #fff;
+    }
+
+    /* ============================================================
+   RESUME
+============================================================ */
+    #resume {
+      background: var(--bg2);
+    }
+
+    .resume-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .resume-card::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 212, 170, 0.12), transparent 70%);
+    }
+
+    .resume-text {}
+
+    .resume-text .section-sub {
+      margin-bottom: 28px;
+    }
+
+    .resume-highlights {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .rh-item {}
+
+    .rh-item .rh-val {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .rh-item .rh-lbl {
+      font-size: 0.8rem;
+      color: var(--text3);
+      margin-top: 2px;
+    }
+
+    /* ✅ REPLACE RESUME: Change the href in the download button to your actual resume PDF file path */
+    #download-btn {}
+
+    /* ============================================================
+   CONTACT
+============================================================ */
+    #contact {}
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .contact-info {}
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin: 32px 0;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      transition: border-color 0.2s, transform 0.2s;
+      text-decoration: none;
+    }
+
+    .contact-link:hover {
+      border-color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    .contact-link-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(0, 212, 170, 0.1);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .contact-link-text .cl-label {
+      font-size: 0.75rem;
+      color: var(--text3);
+      margin-bottom: 2px;
+    }
+
+    .contact-link-text .cl-val {
+      font-weight: 500;
+      font-size: 0.92rem;
+    }
+
+    /* Contact form */
+    .contact-form {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 36px;
+    }
+
+    .form-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text2);
+      margin-bottom: 7px;
+      letter-spacing: 0.3px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--bg3);
+      border: 1.5px solid var(--card-border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      resize: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .form-submit {
+      width: 100%;
+      justify-content: center;
+      margin-top: 4px;
+    }
+
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 24px;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .form-success i {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    /* ============================================================
+   FOOTER
+============================================================ */
+    footer {
+      background: var(--bg2);
+      border-top: 1px solid var(--card-border);
+      padding: 32px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-copy {
+      font-size: 0.85rem;
+      color: var(--text3);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-links a {
+      color: var(--text3);
+      font-size: 1.1rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .footer-back {
+      font-size: 0.85rem;
+      color: var(--text3);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      transition: color 0.2s;
+    }
+
+    .footer-back:hover {
+      color: var(--accent);
+    }
+
+    /* ============================================================
+   LIGHTBOX
+============================================================ */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox-inner {
+      max-width: 900px;
+      width: 100%;
+      background: var(--card);
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(0, 0, 0, 0.5);
+      border: none;
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    .lightbox-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+    }
+
+    /* ============================================================
+   RESPONSIVE
+============================================================ */
+    @media (max-width: 900px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-visual {
+        display: none;
+      }
+
+      .hero-cta {
+        justify-content: center;
+      }
+
+      .hero-stats {
+        justify-content: center;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-img-wrap {
+        max-width: 360px;
+        margin: 0 auto;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .gallery-item:first-child {
+        grid-column: span 2;
+      }
+
+      .resume-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 36px 24px;
+      }
+
+      .resume-highlights {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .section {
+        padding: 64px 0;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-item:first-child {
+        grid-column: span 1;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .skills-header {
+        flex-direction: column;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================================
+     NAV
+============================================================ -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <div class="nav-logo">Aman<span>.</span></div>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#resume">Resume</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#about" onclick="closeMobileNav()">About</a>
+    <a href="#skills" onclick="closeMobileNav()">Skills</a>
+    <a href="#projects" onclick="closeMobileNav()">Projects</a>
+    <a href="#gallery" onclick="closeMobileNav()">Gallery</a>
+    <a href="#resume" onclick="closeMobileNav()">Resume</a>
+    <a href="#contact" onclick="closeMobileNav()">Contact</a>
+  </div>
+
+  <!-- ============================================================
+     HERO
+============================================================ -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+
+      <div class="hero-text">
+        <div class="hero-badge">
+          <span class="dot"></span>
+          Available for opportunities
+        </div>
+        <h1 class="hero-name">
+          Hi, I'm <br><span class="highlight">Aman </span>
+        </h1>
+        <p class="hero-title">Data Analyst</p>
+        <p class="hero-tagline">
+          <strong>Turning data into actionable insights</strong> — I help organisations
+          discover patterns, build powerful dashboards, and make data-driven decisions.
+        </p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn btn-primary"><i class="fas fa-chart-bar"></i> View Projects</a>
+          <a href="#contact" class="btn btn-outline"><i class="fas fa-paper-plane"></i> Get In Touch</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="num">5+</div>
+            <div class="label">PROJECTS BUILT</div>
+          </div>
+          <div class="stat-item">
+            <div class="num">6+</div>
+            <div class="label">CORE TOOLS</div>
+          </div>
+          <div class="stat-item">
+            <div class="num">MCA</div>
+            <div class="label">POST GRADUATE</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="avatar-card">
+          <!-- ✅ REPLACE: Change the emoji to an <img> tag with your photo path -->
+          <!-- <div id="hero-avatar">🧑‍💻</div> -->
+          <img id="about-photo" src="images\aman.jpg">
+          <div class="avatar-name"> Aman </div>
+          <div class="avatar-role">Data Analyst</div>
+          <div class="avatar-tools">
+            <span class="tool-chip">Excel</span>
+            <span class="tool-chip">Power BI</span>
+            <span class="tool-chip">SQL</span>
+            <span class="tool-chip">Python</span>
+            <span class="tool-chip">Data Cleaning</span>
+            <span class="tool-chip">Visualization</span>
+          </div>
+        </div>
+        <div class="floating-card fc-top">
+          <div class="fc-icon"><i class="fas fa-chart-line"></i></div>
+          <div class="fc-val">+84%</div>
+          <div class="fc-lbl">Insight Accuracy</div>
+        </div>
+        <div class="floating-card fc-bottom">
+          <div class="fc-icon"><i class="fas fa-database"></i></div>
+          <div class="fc-val">SQL</div>
+          <div class="fc-lbl">Data Querying</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+     ABOUT
+============================================================ -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="about-grid">
+
+        <div class="about-img-wrap fade-up">
+          <!-- ✅ REPLACE: Replace the emoji div with: <img id="about-photo" src="YOUR_PHOTO.jpg" alt="Aman Sharma"> -->
+          <img id="about-photo" src="images\1707962976699.jpg" alt="Aman">
+          <div class="about-badge-float">
+            <span class="yr">MCA</span>
+            <span class="txt">STUDENT</span>
+          </div>
+        </div>
+        <div class="about-text fade-up">
+          <div class="section-label">About Me</div>
+          <h2 class="section-title">Data-Driven. Insight-Focused. Always Curious.</h2>
+          <p class="section-sub" style="margin-bottom:20px;">
+            I'm <strong>Aman Sharma</strong>, a BCA graduate currently pursuing my MCA, passionate about
+            transforming raw data into meaningful stories. My journey in data analysis started during my
+            undergraduate studies, where I discovered the power of turning numbers into decisions.
+          </p>
+          <p class="section-sub" style="margin-bottom:32px;">
+            I specialise in building interactive <strong>Power BI dashboards</strong>, managing data
+            with <strong>Excel</strong>, and querying databases with <strong>SQL</strong>. I love the
+            challenge of finding insights hidden in messy datasets.
+          </p>
+          <ul class="about-list">
+            <li><i class="fas fa-graduation-cap"></i> BCA Graduate — strong foundation in computer applications & data
+            </li>
+            <li><i class="fas fa-book-open"></i> Currently pursuing MCA — deepening analytical & technical skills</li>
+            <li><i class="fas fa-chart-pie"></i> Passionate about dashboard creation and data storytelling</li>
+            <li><i class="fas fa-lightbulb"></i> Always learning new tools and techniques in data analytics</li>
+            <li><i class="fas fa-users"></i> Collaborative mindset with attention to detail</li>
+          </ul>
+          <a href="#contact" class="btn btn-primary"><i class="fas fa-arrow-right"></i> Let's Connect</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+     SKILLS
+============================================================ -->
+  <section id="skills" class="section">
+    <div class="container">
+      <div class="skills-header">
+        <div>
+          <div class="section-label">My Toolkit</div>
+          <h2 class="section-title">Skills & Expertise</h2>
+        </div>
+        <p class="section-sub" style="text-align:right;max-width:340px;">
+          Tools and technologies I use daily to analyse, visualise, and communicate data.
+        </p>
+      </div>
+      <!-- python skills -->
+      <div class="skills-grid">
+        <div class="skill-card fade-up" data-delay="0">
+          <div class="skill-icon">
+            <i class="fab fa-python"></i>
+          </div>
+          <div class="skill-name">Python</div>
+          <div class="skill-desc">
+            Data analysis, automation, data cleaning, visualization, and machine learning using Python libraries.
+          </div>
+          <div class="skill-pct">85%</div>
+          <div class="skill-bar-wrap">
+            <div class="skill-bar" data-width="85"></div>
+          </div>
+        </div>
+
+        <!-- sql skill -->
+
+
+        <div class="skill-card fade-up" data-delay="2">
+          <div class="skill-icon"><i class="fas fa-database"></i></div>
+          <div class="skill-name">SQL</div>
+          <div class="skill-desc">Queries, joins, aggregations, and data extraction from relational databases.</div>
+          <div class="skill-pct">70%</div>
+          <div class="skill-bar-wrap">
+            <div class="skill-bar" data-width="70"></div>
+          </div>
+        </div>
+        <div class="skill-card fade-up" data-delay="2">
+          <div class="skill-icon"><i class="fas fa-database"></i></div>
+          <div class="skill-name">Power bi</div>
+          <div class="skill-desc">Queries, joins, aggregations, and data extraction from relational databases.</div>
+          <div class="skill-pct">70%</div>
+          <div class="skill-bar-wrap">
+            <div class="skill-bar" data-width="70"></div>
+          </div>
+        </div>
+
+        <div class="skill-card fade-up" data-delay="3">
+          <div class="skill-icon"><i class="fas fa-broom"></i></div>
+          <div class="skill-name">Excel</div>
+          <div class="skill-desc">Leveraging Advanced Excel and Power Query to clean, transform, analyze, and visualize data through automated workflows,
+          formulas, Pivot Tables, and interactive dashboards.</div>
+          <div class="skill-pct">85%</div>
+          <div class="skill-bar-wrap">
+            <div class="skill-bar" data-width="85"></div>
+          </div>
+        </div>
+
+        <div class="skill-card fade-up" data-delay="4">
+          <div class="skill-icon"><i class="fas fa-eye"></i></div>
+          <div class="skill-name">Data Visualization</div>
+          <div class="skill-desc">Creating clear, compelling charts and dashboards to communicate findings effectively.
+          </div>
+          <div class="skill-pct">88%</div>
+          <div class="skill-bar-wrap">
+            <div class="skill-bar" data-width="88"></div>
+          </div>
+        </div>
+
+        <div class="skill-card fade-up" data-delay="5">
+          <div class="skill-icon"><i class="fas fa-brain"></i></div>
+          <div class="skill-name">Analytical Thinking</div>
+          <div class="skill-desc">Problem decomposition, pattern recognition, and translating data into actionable
+            insights.</div>
+          <div class="skill-pct">80%</div>
+          <div class="skill-bar-wrap">
+            <div class="skill-bar" data-width="80"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+     PROJECTS
+============================================================ -->
+  <section id="projects" class="section">
+    <div class="container">
+      <div class="projects-header fade-up">
+        <div class="section-label">Portfolio</div>
+        <h2 class="section-title">Featured Projects</h2>
+        <p class="section-sub">Real-world analytics projects built using Power BI, Excel, and SQL.</p>
+      </div>
+
+      <div class="projects-grid">
+
+        <!-- PROJECT 1 -->
+        <div class="project-card fade-up">
+        
+          <!-- PROJECT IMAGE -->
+          <div class="project-image">
+            <img src="images/Hospital_ER_Dashboard png.jpg" alt="Hospital Emergency Room Dashboard">
+          </div>
+        
+          <div class="project-body">
+        
+            <!-- PROJECT TOOLS -->
+            <div class="project-tools">
+              <span class="tag">
+                <i class="fas fa-chart-bar"></i>
+                Excel
+              </span>
+        
+              <span class="tag">
+                <i class="fas fa-database"></i>
+                Power Query
+              </span>
+            </div>
+        
+            <!-- PROJECT TITLE -->
+            <div class="project-title">
+              🏥 Hospital Emergency Room Dashboard
+            </div>
+        
+            <!-- PROJECT PROBLEM -->
+            <p class="project-problem">
+              <strong>Problem:</strong>
+              Hospital staff and administrators needed an efficient way to monitor emergency room performance,
+              patient flow, waiting times, admission status, and overall patient service patterns through an interactive and
+              visual dashboard.
+            </p>
+        
+            <!-- PROJECT INSIGHTS -->
+            <ul class="project-insights">
+        
+              <li>
+                <i class="fas fa-check-circle"></i>
+                Identified peak emergency room hours and analyzed patient arrival patterns
+              </li>
+        
+              <li>
+                <i class="fas fa-check-circle"></i>
+                Visualized patient flow, waiting times, admission status, and department-wise performance
+              </li>
+        
+              <li>
+                <i class="fas fa-check-circle"></i>
+                Analyzed patient demographics and service trends to generate actionable insights
+              </li>
+        
+            </ul>
+        
+            <!-- PROJECT LINKS -->
+            <div class="project-links">
+        
+              <!-- GITHUB LINK -->
+              <a href="https://github.com/aman639815/Hospital_emergency_room_dashboard" target="_blank" class="project-link">
+                <i class="fab fa-github"></i>
+                GitHub
+              </a>
+        
+              <!-- LIVE DEMO LINK -->
+              <a href="YOUR_LIVE_LINK_HERE" target="_blank" class="project-link live-link">
+                <i class="fas fa-external-link-alt"></i>
+                Live Demo
+              </a>
+        
+            </div>
+        
+          </div>
+        
+        </div>
+        <!-- PROJECT 2 -->
+        <!-- PROJECT 1 -->
+        <div class="project-card fade-up">
+        
+          <!-- PROJECT IMAGE -->
+          <div class="project-image">
+            <img src="images/Hospital_ER_Dashboard png.jpg" alt="Hospital Emergency Room Dashboard">
+          </div>
+        
+          <div class="project-body">
+        
+            <!-- PROJECT TOOLS -->
+            <div class="project-tools">
+              <span class="tag">
+                <i class="fas fa-chart-bar"></i>
+                Excel
+              </span>
+        
+              <span class="tag">
+                <i class="fas fa-database"></i>
+                Power Query
+              </span>
+            </div>
+        
+            <!-- PROJECT TITLE -->
+            <div class="project-title">
+              🏥 Hospital Emergency Room Dashboard
+            </div>
+        
+            <!-- PROJECT PROBLEM -->
+            <p class="project-problem">
+              <strong>Problem:</strong>
+              Hospital staff and administrators needed an efficient way to monitor emergency room performance,
+              patient flow, waiting times, admission status, and overall patient service patterns through an interactive and
+              visual dashboard.
+            </p>
+        
+            <!-- PROJECT INSIGHTS -->
+            <ul class="project-insights">
+        
+              <li>
+                <i class="fas fa-check-circle"></i>
+                Identified peak emergency room hours and analyzed patient arrival patterns
+              </li>
+        
+              <li>
+                <i class="fas fa-check-circle"></i>
+                Visualized patient flow, waiting times, admission status, and department-wise performance
+              </li>
+        
+              <li>
+                <i class="fas fa-check-circle"></i>
+                Analyzed patient demographics and service trends to generate actionable insights
+              </li>
+        
+            </ul>
+        
+            <!-- PROJECT LINKS -->
+            <div class="project-links">
+        
+              <!-- GITHUB LINK -->
+              <a href="https://github.com/aman639815/Hospital_emergency_room_dashboard" target="_blank" class="project-link">
+                <i class="fab fa-github"></i>
+                GitHub
+              </a>
+        
+              <!-- LIVE DEMO LINK -->
+              <a href="YOUR_LIVE_LINK_HERE" target="_blank" class="project-link live-link">
+                <i class="fas fa-external-link-alt"></i>
+                Live Demo
+              </a>
+        
+            </div>
+        
+          </div>
+        
+        </div>
+
+        <!-- PROJECT 3 -->
+        <div class="project-card fade-up">
+          <!-- ✅ REPLACE IMAGE: Replace the placeholder div below with your dashboard screenshot -->
+          <div class="project-img-placeholder" id="proj3-img">
+            <i class="fas fa-building" style="font-size:2rem;color:rgba(0,212,170,0.35);"></i>
+            <span style="font-size:0.75rem;color:var(--text3);">💼 Business Insights Dashboard</span>
+            <span class="img-hint">Click "Edit" above and replace with your screenshot</span>
+            <div class="img-bar-demo">
+              <span style="height:75%"></span><span style="height:50%"></span>
+              <span style="height:90%"></span><span style="height:65%"></span>
+              <span style="height:40%"></span><span style="height:85%"></span>
+              <span style="height:55%"></span><span style="height:70%"></span>
+            </div> 
+          </div>
+          <div class="project-body">
+            <div class="project-tools">
+              <span class="tag"><i class="fas fa-chart-bar"></i> Power BI</span>
+              <span class="tag"><i class="fas fa-database"></i> SQL</span>
+            </div>
+            <div class="project-title">💼 Business Insights Dashboard</div>
+            <!-- ✅ EDIT: Update problem statement with your actual project details -->
+            <p class="project-problem">
+              <strong>Problem:</strong> Business leaders lacked a unified view of KPIs across departments.
+              Manual Excel reports were slow, error-prone, and hard to interpret quickly.
+            </p>
+            <ul class="project-insights">
+              <li><i class="fas fa-check-circle"></i> Built an automated KPI tracker reducing reporting time by 70%</li>
+              <li><i class="fas fa-check-circle"></i> Analysed customer churn patterns using SQL data extraction</li>
+              <li><i class="fas fa-check-circle"></i> Delivered real-time drill-down capability for department heads
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+     GALLERY
+============================================================ -->
+    <!-- <section id="gallery" class="section" style="background:var(--bg2);">
+    <div class="container">
+      <div class="gallery-header fade-up">
+        <div class="section-label">Showcase</div>
+        <h2 class="section-title">Dashboard Gallery</h2>
+        <p class="section-sub">A visual showcase of my analytical work and dashboards.</p>
+      </div>
+      <div class="gallery-grid">
+
+        ✅ REPLACE: Replace each .gallery-placeholder with <img src="your-image.jpg"> -->
+        <!-- <div class="gallery-item fade-up">
+
+          <img src="images/Hospital_ER_Dashboard png.jpg" alt="Hospital Dashboard"
+            onclick="openLightbox(this.src, 'Hospital ER Dashboard')">
+
+          <i class="fas fa-chart-area"></i>
+
+          <p>Hospital Er Dashboard – Full View</p>
+
+          <a href="https://github.com/aman639815/Hospital_emergency_room_dashboard" target="_blank"
+            class="github-badge">
+
+            <i class="fab fa-github"></i> See on GitHub
+
+          </a>
+
+        </div>
+
+        <div class="gallery-item fade-up" onclick="openLightbox('Sales Dashboard')">
+          <div class="gallery-placeholder">
+            <i class="fas fa-chart-bar"></i>
+            <p>Sales Dashboard</p>
+            <span style="font-size:0.72rem;color:var(--text3);"></span>
+          </div>
+          <div class="gallery-overlay">
+            <p>📊 Sales Performance</p>
+          </div>
+        </div>
+
+        <div class="gallery-item fade-up" onclick="openLightbox('Business KPI Dashboard')">
+          <div class="gallery-placeholder">
+            <i class="fas fa-tachometer-alt"></i>
+            <p>Business KPI Dashboard</p>
+            <span style="font-size:0.72rem;color:var(--text3);">Replace with your screenshot</span>
+          </div>
+          <div class="gallery-overlay">
+            <p>💼 Business KPIs</p>
+          </div>
+        </div>
+
+        <div class="gallery-item fade-up" onclick="openLightbox('Data Model View')">
+          <div class="gallery-placeholder">
+            <i class="fas fa-sitemap"></i>
+            <p>Data Model / Schema</p>
+            <span style="font-size:0.72rem;color:var(--text3);">Replace with your screenshot</span>
+          </div>
+          <div class="gallery-overlay">
+            <p>🗂️ Data Model View</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>  -->
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <div class="lightbox-inner" onclick="event.stopPropagation()">
+      <button class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
+      <div class="gallery-placeholder lightbox-img" id="lightbox-img" style="aspect-ratio:16/9;border-radius:0;">
+        <i class="fas fa-image" style="font-size:3rem;"></i>
+        <p id="lightbox-title">Dashboard Preview</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+     RESUME
+============================================================ -->
+  <section id="resume" class="section">
+    <div class="container">
+      <div class="resume-card fade-up">
+        <div class="resume-text">
+          <div class="section-label">Resume</div>
+          <h2 class="section-title" style="margin-bottom:8px;">Download My Resume</h2>
+          <p class="section-sub" style="margin-bottom:28px;">
+            Get a complete overview of my education, skills, tools, and project experience as a Data Analyst.
+          </p>
+          <div class="resume-highlights">
+            <div class="rh-item">
+              <div class="rh-val">BCA</div>
+              <div class="rh-lbl">GRADUATE</div>
+            </div>
+            <div class="rh-item">
+              <div class="rh-val">MCA</div>
+              <div class="rh-lbl">IN PROGRESS</div>
+            </div>
+            <div class="rh-item">
+              <div class="rh-val">4+</div>
+              <div class="rh-lbl">TOOLS MASTERED</div>
+            </div>
+            <div class="rh-item">
+              <div class="rh-val">3+</div>
+              <div class="rh-lbl">LIVE PROJECTS</div>
+            </div>
+          </div>
+          <!-- ✅ REPLACE: Change href to the actual path of your resume PDF file -->
+          <a href="Aman_Sharma_Resume.pdf" download class="btn btn-primary" id="download-btn">
+            <i class="fas fa-download"></i> Download Resume (PDF)
+          </a>
+        </div>
+        <div
+          style="font-size:7rem;opacity:0.08;font-weight:900;font-family:'Syne',sans-serif;user-select:none;flex-shrink:0;">
+          CV
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+     CONTACT
+============================================================ -->
+  <section id="contact" class="section" style="background:var(--bg2);">
+    <div class="container">
+      <div class="contact-grid">
+
+        <div class="contact-info fade-up">
+          <div class="section-label">Get In Touch</div>
+          <h2 class="section-title">Let's Work Together</h2>
+          <p class="section-sub">
+            Whether you have a project, internship opportunity, or just want to connect over
+            data — I'd love to hear from you!
+          </p>
+
+          <div class="contact-links">
+            <!-- ✅ REPLACE: Change href="mailto:..." to your actual email -->
+            <a class="contact-link" href="https://mail.google.com/mail/?view=cm&fs=1&to=amansharmasundari@gmail.com"
+              target="_blank">
+
+              <div class="contact-link-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+
+              <div class="contact-link-text">
+                <div class="cl-label">EMAIL</div>
+                <div class="cl-val">amansharmasundari@gmail.com</div>
+              </div>
+
+              <i class="fas fa-arrow-right" style="margin-left:auto;color:var(--text3);font-size:0.85rem;">
+              </i>
+
+            </a>
+
+            <!-- ✅ REPLACE: Change href to your actual LinkedIn profile URL -->
+            <a class="contact-link" href="https://www.linkedin.com/in/aman639815" target="_blank">
+              <div class="contact-link-icon"><i class="fab fa-linkedin"></i></div>
+              <div class="contact-link-text">
+                <div class="cl-label">LINKEDIN</div>
+                <div class="cl-val">Connect me on linked in</div>
+              </div>
+              <i class="fas fa-arrow-right" style="margin-left:auto;color:var(--text3);font-size:0.85rem;"></i>
+            </a>
+
+            <!-- ✅ REPLACE: Change href to your GitHub if you have one -->
+            <a class="contact-link" href="https://github.com/aman639815" target="_blank">
+              <div class="contact-link-icon"><i class="fab fa-github"></i></div>
+              <div class="contact-link-text">
+                <div class="cl-label">GITHUB</div>
+                <div class="cl-val">My git hub account</div>
+              </div>
+              <i class="fas fa-arrow-right" style="margin-left:auto;color:var(--text3);font-size:0.85rem;"></i>
+            </a>
+          </div>
+        </div>
+
+        <form action="https://formsubmit.co/amansharmasundari@gmail.com" method="POST" class="contact-form fade-up"
+          onsubmit="showThankYou(event)">
+
+          <input type="hidden" name="_captcha" value="false">
+
+          <div class="form-title">Send Me a Message</div>
+
+          <div class="form-row">
+
+            <div class="form-group">
+              <label>Your Name</label>
+              <input type="text" name="name" required>
+            </div>
+
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" name="email" required>
+            </div>
+
+          </div>
+
+          <div class="form-group">
+            <label>Subject</label>
+            <input type="text" name="subject">
+          </div>
+
+          <div class="form-group">
+            <label>Message</label>
+            <textarea name="message" rows="5" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary form-submit">
+            Send Message
+          </button>
+
+          <!-- Thank You Message -->
+          <p id="thank-you-message" style="
+            display:none;
+            color:#00d4aa;
+            margin-top:15px;
+            font-weight:bold;
+            text-align:center;
+        ">
+            Thank you for contacting me 🚀
+          </p>
+
+        </form>
+
+        <script>
+          function showThankYou(event) {
+
+            // show message instantly
+            document.getElementById("thank-you-message").style.display = "block";
+
+          }
+        </script>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+     FOOTER
+============================================================ -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-copy">© 2025 Aman Sharma. Designed & Built with ❤️</div>
+        <div class="footer-links">
+          <!-- ✅ REPLACE: Update href values to your actual social links -->
+          <a href="mailto:amansharmasundari@email.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+          <a href="https://www.linkedin.com/in/aman639815" target="_blank" aria-label="LinkedIn"><i
+              class="fab fa-linkedin"></i></a>
+          <a href="https://github.com/aman639815" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        </div>
+        <button class="footer-back" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+          <i class="fas fa-arrow-up"></i> Back to Top
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+  <script>
+    // Theme toggle
+    const html = document.documentElement;
+    const themeBtn = document.getElementById('themeToggle');
+    themeBtn.addEventListener('click', () => {
+      html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+    });
+
+    // Hamburger
+    const ham = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    ham.addEventListener('click', () => mobileNav.classList.toggle('open'));
+    function closeMobileNav() { mobileNav.classList.remove('open'); }
+
+    // Intersection observer for fade-up
+    const fadeEls = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          const delay = entry.target.dataset.delay || 0;
+          setTimeout(() => entry.target.classList.add('visible'), delay * 100);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    fadeEls.forEach(el => observer.observe(el));
+
+    // Skill bar animation
+    const skillBars = document.querySelectorAll('.skill-bar');
+    const barObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const bar = entry.target;
+          const width = bar.dataset.width;
+          setTimeout(() => { bar.style.width = width + '%'; }, 200);
+          barObserver.unobserve(bar);
+        }
+      });
+    }, { threshold: 0.3 });
+    skillBars.forEach(bar => barObserver.observe(bar));
+
+    // Lightbox
+    function openLightbox(title) {
+      document.getElementById('lightbox-title').textContent = title;
+      document.getElementById('lightbox').classList.add('open');
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+    }
+
+    // Contact form
+    function handleFormSubmit() {
+      const name = document.getElementById('f-name').value;
+      const email = document.getElementById('f-email').value;
+      const msg = document.getElementById('f-message').value;
+      if (!name || !email || !msg) {
+        alert('Please fill in Name, Email, and Message.');
+        return;
+      }
+      document.getElementById('contactForm').style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    }/* ============================================================
+   LIGHTBOX FUNCTION
+============================================================ */
+
+    function openLightbox(imageSrc, title = "Dashboard Preview") {
+
+      const lightbox = document.getElementById("lightbox");
+
+      const lightboxImg = document.getElementById("lightbox-img");
+
+      lightbox.classList.add("active");
+
+      lightboxImg.innerHTML = `
+    <img src="${imageSrc}" 
+         alt="${title}" 
+         style="
+           width:100%;
+           height:100%;
+           object-fit:contain;
+           border-radius:12px;
+         ">
+  `;
+
+    }
+
+    function closeLightbox() {
+
+      document.getElementById("lightbox").classList.remove("active");
+
+    }
+  </script>
+
+</body>
+
+</html>
