@@ -61,58 +61,6 @@
       font-size: 16px;
     }
 
-    /* ============================================================
-   LIGHTBOX ACTIVE
-============================================================ */
-
-    .lightbox {
-      position: fixed;
-      inset: 0;
-
-      background: rgba(0, 0, 0, 0.92);
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      opacity: 0;
-      visibility: hidden;
-
-      transition: 0.3s ease;
-
-      z-index: 9999;
-    }
-
-    .lightbox.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .lightbox-inner {
-      width: 90%;
-      max-width: 1100px;
-    }
-
-    .lightbox-img img {
-      width: 100%;
-      max-height: 90vh;
-      object-fit: contain;
-    }
-
-    .lightbox-close {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-
-      background: none;
-      border: none;
-
-      color: white;
-      font-size: 2rem;
-
-      cursor: pointer;
-    }
-
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--bg);
@@ -557,7 +505,7 @@
       background: linear-gradient(90deg, var(--accent), var(--accent2));
     }
 
-    /* ✅ REPLACE IMAGE: Change the src in the <img> tag inside #hero-avatar to your photo URL or local file path */
+    /* Hero circular avatar photo - fixed small size, no matter what image is used */
     #hero-avatar {
       width: 120px;
       height: 120px;
@@ -566,10 +514,7 @@
       margin: 0 auto 20px;
       border: 3px solid var(--accent);
       background: var(--bg3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3rem;
+      display: block;
     }
 
     .avatar-name {
@@ -674,7 +619,7 @@
       position: relative;
     }
 
-    /* ✅ REPLACE IMAGE: Change the src in the <img id="about-photo"> tag to your photo */
+    /* About section photo */
     #about-photo {
       width: 100%;
       aspect-ratio: 4/5;
@@ -682,10 +627,6 @@
       border-radius: 20px;
       border: 2px solid var(--card-border);
       background: var(--bg3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 5rem;
       min-height: 300px;
     }
 
@@ -872,64 +813,20 @@
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
     }
 
-    /* ✅ REPLACE IMAGE: Find each .project-img-placeholder and change the style background or add <img> tag with your dashboard screenshot */
-    .project-img-placeholder {
+    /* Project screenshot inside each card - fixed aspect ratio so images never blow up in size */
+    .project-image {
       width: 100%;
       aspect-ratio: 16/9;
-      background: var(--bg3);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      position: relative;
       overflow: hidden;
-      font-size: 0.8rem;
-      color: var(--text3);
+      background: var(--bg3);
     }
 
-    .project-img-placeholder i {
-      font-size: 2.5rem;
-      color: var(--text3);
-    }
-
-    .project-img-placeholder .img-hint {
-      font-size: 0.72rem;
-      color: var(--text3);
-      background: var(--card-border);
-      padding: 4px 12px;
-      border-radius: 6px;
-      text-align: center;
-    }
-
-    /* Decorative dashboard lines */
-    .project-img-placeholder::before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 40%;
-      background:
-        linear-gradient(transparent, var(--bg2)),
-        repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(0, 212, 170, 0.07) 40px, rgba(0, 212, 170, 0.07) 41px);
-    }
-
-    .img-bar-demo {
-      position: absolute;
-      bottom: 12px;
-      left: 16px;
-      right: 16px;
-      display: flex;
-      align-items: flex-end;
-      gap: 4px;
-      height: 50px;
-    }
-
-    .img-bar-demo span {
-      flex: 1;
-      background: rgba(0, 212, 170, 0.3);
-      border-radius: 3px 3px 0 0;
+    .project-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0;
+      display: block;
     }
 
     .project-body {
@@ -962,6 +859,7 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
+      margin-bottom: 18px;
     }
 
     .project-insights li {
@@ -978,6 +876,31 @@
       flex-shrink: 0;
     }
 
+    .project-links {
+      display: flex;
+      gap: 20px;
+      padding-top: 14px;
+      border-top: 1px solid var(--card-border);
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--text2);
+      transition: color 0.2s;
+    }
+
+    .project-link:hover {
+      color: var(--accent);
+    }
+
+    .project-link.live-link {
+      color: var(--accent);
+    }
+
     /* ============================================================
    DASHBOARD GALLERY
 ============================================================ */
@@ -990,17 +913,14 @@
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: auto auto;
       gap: 16px;
     }
 
-    /* ✅ REPLACE IMAGES: Change the background-image in each .gallery-item to your dashboard screenshot URL */
     .gallery-item {
       border-radius: 16px;
       overflow: hidden;
       position: relative;
       border: 1px solid var(--card-border);
-      cursor: pointer;
       transition: transform 0.3s, box-shadow 0.3s;
       background: var(--card);
     }
@@ -1010,50 +930,41 @@
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
     }
 
-    .gallery-item:first-child {
-      grid-column: span 2;
-    }
+    
+    
 
-    .gallery-placeholder {
+    /* Gallery screenshot - fixed aspect ratio so it never renders oversized */
+    .gallery-item img {
       width: 100%;
       aspect-ratio: 16/9;
-      background: var(--bg3);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      color: var(--text3);
+      object-fit: cover;
+      border-radius: 0;
+      cursor: pointer;
+      display: block;
     }
 
-    .gallery-placeholder i {
-      font-size: 2rem;
+    .gallery-caption {
+      padding: 16px 18px;
     }
 
-    .gallery-placeholder p {
-      font-size: 0.8rem;
-    }
-
-    .gallery-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(transparent, rgba(10, 13, 20, 0.9));
-      padding: 20px 16px 14px;
-      transform: translateY(100%);
-      transition: transform 0.3s;
-    }
-
-    .gallery-item:hover .gallery-overlay {
-      transform: translateY(0);
-    }
-
-    .gallery-overlay p {
+    .gallery-caption p {
       font-family: 'Syne', sans-serif;
       font-weight: 600;
       font-size: 0.9rem;
-      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .github-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .github-badge:hover {
+      text-decoration: underline;
     }
 
     /* ============================================================
@@ -1114,9 +1025,6 @@
       color: var(--text3);
       margin-top: 2px;
     }
-
-    /* ✅ REPLACE RESUME: Change the href in the download button to your actual resume PDF file path */
-    #download-btn {}
 
     /* ============================================================
    CONTACT
@@ -1241,18 +1149,12 @@
       margin-top: 4px;
     }
 
-    .form-success {
+    #thank-you-message {
       display: none;
-      text-align: center;
-      padding: 24px;
       color: var(--accent);
-      font-weight: 600;
-    }
-
-    .form-success i {
-      font-size: 2rem;
-      margin-bottom: 8px;
-      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      text-align: center;
     }
 
     /* ============================================================
@@ -1309,13 +1211,13 @@
     }
 
     /* ============================================================
-   LIGHTBOX
+   LIGHTBOX (open/close popup for gallery + project images)
 ============================================================ */
     .lightbox {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0, 0, 0, 0.88);
       z-index: 9999;
       align-items: center;
       justify-content: center;
@@ -1356,7 +1258,17 @@
     .lightbox-img {
       width: 100%;
       aspect-ratio: 16/9;
-      object-fit: cover;
+      background: var(--bg3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 0;
     }
 
     /* ============================================================
@@ -1444,6 +1356,10 @@
       .projects-grid {
         grid-template-columns: 1fr;
       }
+
+      .resume-card>div[style] {
+        display: none;
+      }
     }
   </style>
 </head>
@@ -1526,9 +1442,7 @@
 
       <div class="hero-visual">
         <div class="avatar-card">
-          <!-- ✅ REPLACE: Change the emoji to an <img> tag with your photo path -->
-          <!-- <div id="hero-avatar">🧑‍💻</div> -->
-          <img id="about-photo" src="images\aman.jpg">
+          <img id="hero-avatar" src="images/aman.jpg" alt="Aman">
           <div class="avatar-name"> Aman </div>
           <div class="avatar-role">Data Analyst</div>
           <div class="avatar-tools">
@@ -1563,8 +1477,7 @@
       <div class="about-grid">
 
         <div class="about-img-wrap fade-up">
-          <!-- ✅ REPLACE: Replace the emoji div with: <img id="about-photo" src="YOUR_PHOTO.jpg" alt="Aman Sharma"> -->
-          <img id="about-photo" src="images\1707962976699.jpg" alt="Aman">
+          <img id="about-photo" src="images/1707962976699.jpg" alt="Aman">
           <div class="about-badge-float">
             <span class="yr">MCA</span>
             <span class="txt">STUDENT</span>
@@ -1612,7 +1525,6 @@
           Tools and technologies I use daily to analyse, visualise, and communicate data.
         </p>
       </div>
-      <!-- python skills -->
       <div class="skills-grid">
         <div class="skill-card fade-up" data-delay="0">
           <div class="skill-icon">
@@ -1627,9 +1539,6 @@
             <div class="skill-bar" data-width="85"></div>
           </div>
         </div>
-
-        <!-- sql skill -->
-
 
         <div class="skill-card fade-up" data-delay="2">
           <div class="skill-icon"><i class="fas fa-database"></i></div>
@@ -1653,8 +1562,9 @@
         <div class="skill-card fade-up" data-delay="3">
           <div class="skill-icon"><i class="fas fa-broom"></i></div>
           <div class="skill-name">Excel</div>
-          <div class="skill-desc">Leveraging Advanced Excel and Power Query to clean, transform, analyze, and visualize data through automated workflows,
-          formulas, Pivot Tables, and interactive dashboards.</div>
+          <div class="skill-desc">Leveraging Advanced Excel and Power Query to clean, transform, analyze, and visualize
+            data through automated workflows,
+            formulas, Pivot Tables, and interactive dashboards.</div>
           <div class="skill-pct">85%</div>
           <div class="skill-bar-wrap">
             <div class="skill-bar" data-width="85"></div>
@@ -1702,199 +1612,102 @@
 
         <!-- PROJECT 1 -->
         <div class="project-card fade-up">
-        
-          <!-- PROJECT IMAGE -->
+
           <div class="project-image">
             <img src="images/Hospital_ER_Dashboard png.jpg" alt="Hospital Emergency Room Dashboard">
           </div>
-        
+
           <div class="project-body">
-        
-            <!-- PROJECT TOOLS -->
+
             <div class="project-tools">
-              <span class="tag">
-                <i class="fas fa-chart-bar"></i>
-                Excel
-              </span>
-        
-              <span class="tag">
-                <i class="fas fa-database"></i>
-                Power Query
-              </span>
+              <span class="tag"><i class="fas fa-chart-bar"></i> Excel</span>
+              <span class="tag"><i class="fas fa-database"></i> Power Query</span>
             </div>
-        
-            <!-- PROJECT TITLE -->
+
             <div class="project-title">
               🏥 Hospital Emergency Room Dashboard
             </div>
-        
-            <!-- PROJECT PROBLEM -->
+
             <p class="project-problem">
               <strong>Problem:</strong>
               Hospital staff and administrators needed an efficient way to monitor emergency room performance,
-              patient flow, waiting times, admission status, and overall patient service patterns through an interactive and
+              patient flow, waiting times, admission status, and overall patient service patterns through an interactive
+              and
               visual dashboard.
             </p>
-        
-            <!-- PROJECT INSIGHTS -->
+
             <ul class="project-insights">
-        
-              <li>
-                <i class="fas fa-check-circle"></i>
-                Identified peak emergency room hours and analyzed patient arrival patterns
-              </li>
-        
-              <li>
-                <i class="fas fa-check-circle"></i>
-                Visualized patient flow, waiting times, admission status, and department-wise performance
-              </li>
-        
-              <li>
-                <i class="fas fa-check-circle"></i>
-                Analyzed patient demographics and service trends to generate actionable insights
-              </li>
-        
+              <li><i class="fas fa-check-circle"></i> Identified peak emergency room hours and analyzed patient arrival
+                patterns</li>
+              <li><i class="fas fa-check-circle"></i> Visualized patient flow, waiting times, admission status, and
+                department-wise performance</li>
+              <li><i class="fas fa-check-circle"></i> Analyzed patient demographics and service trends to generate
+                actionable insights</li>
             </ul>
-        
-            <!-- PROJECT LINKS -->
+
             <div class="project-links">
-        
-              <!-- GITHUB LINK -->
-              <a href="https://github.com/aman639815/Hospital_emergency_room_dashboard" target="_blank" class="project-link">
-                <i class="fab fa-github"></i>
-                GitHub
+              <a href="https://github.com/aman639815/Hospital_emergency_room_dashboard" target="_blank"
+                class="project-link">
+                <i class="fab fa-github"></i> GitHub
               </a>
-        
-              <!-- LIVE DEMO LINK -->
-              <a href="YOUR_LIVE_LINK_HERE" target="_blank" class="project-link live-link">
-                <i class="fas fa-external-link-alt"></i>
-                Live Demo
-              </a>
-        
             </div>
-        
+
           </div>
-        
+
         </div>
+
         <!-- PROJECT 2 -->
-        
         <div class="project-card fade-up">
-        
-          <!-- PROJECT IMAGE -->
+
           <div class="project-image">
             <img src="images/login page.jpg" alt="Online Examination System">
           </div>
-        
+
           <div class="project-body">
-        
-            <!-- PROJECT TOOLS -->
+
             <div class="project-tools">
-              <span class="tag">
-                <i class="fas fa-chart-bar"></i>
-                PYTHON
-              </span>
-        
-              <span class="tag">
-                <i class="fas fa-database"></i>
-                MSSQL
-              </span>
+              <span class="tag"><i class="fas fa-chart-bar"></i> PYTHON</span>
+              <span class="tag"><i class="fas fa-database"></i> MSSQL</span>
             </div>
-        
-            <!-- PROJECT TITLE -->
+
             <div class="project-title">
               Online Examination System
             </div>
-        
-            <!-- PROJECT PROBLEM -->
+
             <p class="project-problem">
               <strong>Problem:</strong>
-              Problem: Manual examination processes can be time-consuming and error-prone, especially when managing questions, student
+              Manual examination processes can be time-consuming and error-prone, especially when managing questions,
+              student
               responses, and result calculation.
             </p>
-        
-            <!-- PROJECT INSIGHTS -->
-            <ul class="project-insights">
-        
-              <li>
-                <i class="fas fa-check-circle"></i>
-                Automated Evaluation — Automatically evaluates submitted answers and calculates the final score.
-              </li>
-        
-              <li>
-                <i class="fas fa-check-circle"></i>
-                Efficient Exam Management — Provides a structured interface for conducting and managing online examinations.
-              </li>
-        
-              <li>
-                <i class="fas fa-check-circle"></i>
-                Secure Data Handling — Stores examination questions, responses, and results using a database for organized data
-                management.              </li>
-        
-            </ul>
-        
-            <!-- PROJECT LINKS -->
-            <div class="project-links">
-        
-              <!-- GITHUB LINK -->
-              <a href="https://github.com/aman639815/Online-Examination-System" target="_blank" class="project-link">
-                <i class="fab fa-github"></i>
-                GitHub
-              </a>
-        
-              <!-- LIVE DEMO LINK -->
-              <a href="YOUR_LIVE_LINK_HERE" target="_blank" class="project-link live-link">
-                <i class="fas fa-external-link-alt"></i>
-                Live demoo
-              </a>
-        
-            </div>
-        
-          </div>
-        
-        </div>
 
-        <!-- PROJECT 3 -->
-        <!-- <div class="project-card fade-up"> -->
-          <!-- ✅ REPLACE IMAGE: Replace the placeholder div below with your dashboard screenshot -->
-          <!-- <div class="project-img-placeholder" id="proj3-img">
-            <i class="fas fa-building" style="font-size:2rem;color:rgba(0,212,170,0.35);"></i>
-            <span style="font-size:0.75rem;color:var(--text3);">💼 Business Insights Dashboard</span>
-            <span class="img-hint">Click "Edit" above and replace with your screenshot</span>
-            <div class="img-bar-demo">
-              <span style="height:75%"></span><span style="height:50%"></span>
-              <span style="height:90%"></span><span style="height:65%"></span>
-              <span style="height:40%"></span><span style="height:85%"></span>
-              <span style="height:55%"></span><span style="height:70%"></span>
-            </div> 
-          </div>
-          <div class="project-body">
-            <div class="project-tools">
-              <span class="tag"><i class="fas fa-chart-bar"></i> Power BI</span>
-              <span class="tag"><i class="fas fa-database"></i> SQL</span>
-            </div>
-            <div class="project-title">💼 Business Insights Dashboard</div> -->
-            <!-- ✅ EDIT: Update problem statement with your actual project details -->
-            <!-- <p class="project-problem">
-              <strong>Problem:</strong> Business leaders lacked a unified view of KPIs across departments.
-              Manual Excel reports were slow, error-prone, and hard to interpret quickly.
-            </p>
             <ul class="project-insights">
-              <li><i class="fas fa-check-circle"></i> Built an automated KPI tracker reducing reporting time by 70%</li>
-              <li><i class="fas fa-check-circle"></i> Analysed customer churn patterns using SQL data extraction</li>
-              <li><i class="fas fa-check-circle"></i> Delivered real-time drill-down capability for department heads
-              </li>
+              <li><i class="fas fa-check-circle"></i> Automated Evaluation — Automatically evaluates submitted answers
+                and calculates the final score.</li>
+              <li><i class="fas fa-check-circle"></i> Efficient Exam Management — Provides a structured interface for
+                conducting and managing online examinations.</li>
+              <li><i class="fas fa-check-circle"></i> Secure Data Handling — Stores examination questions, responses,
+                and results using a database for organized data management.</li>
             </ul>
+
+            <div class="project-links">
+              <a href="https://github.com/aman639815/Online-Examination-System" target="_blank" class="project-link">
+                <i class="fab fa-github"></i> GitHub
+              </a>
+            </div>
+
           </div>
+
         </div>
 
       </div>
     </div>
-  </section>  -->
+  </section>
 
   <!-- ============================================================
      GALLERY
 ============================================================ -->
-    <section id="gallery" class="section" style="background:var(--bg2);"> 
+  <section id="gallery" class="section" style="background:var(--bg2);">
     <div class="container">
       <div class="gallery-header fade-up">
         <div class="section-label">Showcase</div>
@@ -1903,70 +1716,49 @@
       </div>
       <div class="gallery-grid">
 
-        <!-- ✅ REPLACE: Replace each .gallery-placeholder with <img src="your-image.jpg">  -->
-         <div class="gallery-item fade-up">
-
+        <div class="gallery-item fade-up">
           <img src="images/Hospital_ER_Dashboard png.jpg" alt="Hospital Dashboard"
             onclick="openLightbox(this.src, 'Hospital ER Dashboard')">
-
-          <i class="fas fa-chart-area"></i>
-
-          <p>Hospital Er Dashboard – Full View</p>
-
-          <a href="https://github.com/aman639815/Hospital_emergency_room_dashboard" target="_blank"
-            class="github-badge">
-
-            <i class="fab fa-github"></i> See on GitHub
-
-          </a>
-
+          <div class="gallery-caption">
+            <p>Hospital ER Dashboard – Full View</p>
+            <a href="https://github.com/aman639815/Hospital_emergency_room_dashboard" target="_blank"
+              class="github-badge">
+              <i class="fab fa-github"></i> See on GitHub
+            </a>
+          </div>
         </div>
 
-        <!-- <div class="gallery-item fade-up" onclick="openLightbox('Sales Dashboard')">
-          <div class="gallery-placeholder">
-            <i class="fas fa-chart-bar"></i>
-            <p>Sales Dashboard</p>
-            <span style="font-size:0.72rem;color:var(--text3);"></span>
+        <div class="gallery-item fade-up">
+          <img src="images/examinterface.jpg" alt="Online Examination System"
+            onclick="openLightbox(this.src, 'Online Examination System')">
+          <div class="gallery-caption">
+            <p>Online Examination System</p>
+            <a href="https://github.com/aman639815/Online-Examination-System" target="_blank" class="github-badge">
+              <i class="fab fa-github"></i> See on GitHub
+            </a>
           </div>
-          <div class="gallery-overlay">
-            <p>📊 Sales Performance</p>
-          </div>
-        </div> -->
+        </div>
 
-        <!-- <div class="gallery-item fade-up" onclick="openLightbox('Business KPI Dashboard')">
-          <div class="gallery-placeholder">
-            <i class="fas fa-tachometer-alt"></i>
-            <p>Business KPI Dashboard</p>
-            <span style="font-size:0.72rem;color:var(--text3);">Replace with your screenshot</span>
-          </div>
-          <div class="gallery-overlay">
-            <p>💼 Business KPIs</p>
-          </div>
-        </div> -->
-
-        <!-- <div class="gallery-item fade-up" onclick="openLightbox('Data Model View')">
-          <div class="gallery-placeholder">
-            <i class="fas fa-sitemap"></i>
-            <p>Data Model / Schema</p>
-            <span style="font-size:0.72rem;color:var(--text3);">Replace with your screenshot</span>
-          </div>
-          <div class="gallery-overlay">
-            <p>🗂️ Data Model View</p>
+        <div class="gallery-item fade-up">
+          <img src="images/examinterface.jpg" alt="Online Examination System"
+            onclick="openLightbox(this.src, 'Online Examination System')">
+          <div class="gallery-caption">
+            <p>Online Examination System</p>
+            <a href="https://github.com/aman639815/Online-Examination-System" target="_blank" class="github-badge">
+              <i class="fab fa-github"></i> See on GitHub
+            </a>
           </div>
         </div>
 
       </div>
-    </div> 
-  </section>  -->
+    </div>
+  </section>
 
   <!-- Lightbox -->
   <div class="lightbox" id="lightbox" onclick="closeLightbox()">
     <div class="lightbox-inner" onclick="event.stopPropagation()">
       <button class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
-      <div class="gallery-placeholder lightbox-img" id="lightbox-img" style="aspect-ratio:16/9;border-radius:0;">
-        <i class="fas fa-image" style="font-size:3rem;"></i>
-        <p id="lightbox-title">Dashboard Preview</p>
-      </div>
+      <div class="lightbox-img" id="lightbox-img"></div>
     </div>
   </div>
 
@@ -2000,8 +1792,7 @@
               <div class="rh-lbl">LIVE PROJECTS</div>
             </div>
           </div>
-          <!-- ✅ REPLACE: Change href to the actual path of your resume PDF file -->
-          <a href="images\aman cv.pdf" download class="btn btn-primary" id="download-btn">
+          <a href="images/aman-cv.pdf" download class="btn btn-primary" id="download-btn">
             <i class="fas fa-download"></i> Download Resume (PDF)
           </a>
         </div>
@@ -2028,23 +1819,16 @@
             data — I'd love to hear from you!
           </p>
 
-          <a class="contact-link" href="mailto:amansharmasundari@gmail.com" aria-label="Email Aman Sharma">
-          
-            <div class="contact-link-icon">
-              <i class="fas fa-envelope"></i>
-            </div>
-          
-            <div class="contact-link-text">
-              <div class="cl-label">EMAIL</div>
-              <div class="cl-val">amansharmasundari@gmail.com</div>
-            </div>
-          
-            <i class="fas fa-arrow-right" style="margin-left:auto;color:var(--text3);font-size:0.85rem;">
-            </i>
-          
-          </a>
+          <div class="contact-links">
+            <a class="contact-link" href="mailto:amansharmasundari@gmail.com" aria-label="Email Aman Sharma">
+              <div class="contact-link-icon"><i class="fas fa-envelope"></i></div>
+              <div class="contact-link-text">
+                <div class="cl-label">EMAIL</div>
+                <div class="cl-val">amansharmasundari@gmail.com</div>
+              </div>
+              <i class="fas fa-arrow-right" style="margin-left:auto;color:var(--text3);font-size:0.85rem;"></i>
+            </a>
 
-            <!-- ✅ REPLACE: Change href to your actual LinkedIn profile URL -->
             <a class="contact-link" href="https://www.linkedin.com/in/aman639815" target="_blank">
               <div class="contact-link-icon"><i class="fab fa-linkedin"></i></div>
               <div class="contact-link-text">
@@ -2054,7 +1838,6 @@
               <i class="fas fa-arrow-right" style="margin-left:auto;color:var(--text3);font-size:0.85rem;"></i>
             </a>
 
-            <!-- ✅ REPLACE: Change href to your GitHub if you have one -->
             <a class="contact-link" href="https://github.com/aman639815" target="_blank">
               <div class="contact-link-icon"><i class="fab fa-github"></i></div>
               <div class="contact-link-text">
@@ -2065,7 +1848,6 @@
             </a>
           </div>
         </div>
-        
 
         <form action="https://formsubmit.co/amansharmasundari@gmail.com" method="POST" class="contact-form fade-up"
           onsubmit="showThankYou(event)">
@@ -2075,7 +1857,6 @@
           <div class="form-title">Send Me a Message</div>
 
           <div class="form-row">
-
             <div class="form-group">
               <label>Your Name</label>
               <input type="text" name="name" required>
@@ -2085,7 +1866,6 @@
               <label>Email Address</label>
               <input type="email" name="email" required>
             </div>
-
           </div>
 
           <div class="form-group">
@@ -2102,27 +1882,9 @@
             Send Message
           </button>
 
-          <!-- Thank You Message -->
-          <p id="thank-you-message" style="
-            display:none;
-            color:#00d4aa;
-            margin-top:15px;
-            font-weight:bold;
-            text-align:center;
-        ">
-            Thank you for contacting me 🚀
-          </p>
+          <p id="thank-you-message">Thank you for contacting me 🚀</p>
 
         </form>
-
-        <script>
-          function showThankYou(event) {
-
-            // show message instantly
-            document.getElementById("thank-you-message").style.display = "block";
-
-          }
-        </script>
 
       </div>
     </div>
@@ -2136,8 +1898,7 @@
       <div class="footer-inner">
         <div class="footer-copy">© 2025 Aman. Designed & Built with ❤️</div>
         <div class="footer-links">
-          <!-- ✅ REPLACE: Update href values to your actual social links -->
-          <a href="mailto:amansharmasundari@email.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+          <a href="mailto:amansharmasundari@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
           <a href="https://www.linkedin.com/in/aman639815" target="_blank" aria-label="LinkedIn"><i
               class="fab fa-linkedin"></i></a>
           <a href="https://github.com/aman639815" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
@@ -2169,7 +1930,7 @@
     // Intersection observer for fade-up
     const fadeEls = document.querySelectorAll('.fade-up');
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const delay = entry.target.dataset.delay || 0;
           setTimeout(() => entry.target.classList.add('visible'), delay * 100);
@@ -2193,55 +1954,22 @@
     }, { threshold: 0.3 });
     skillBars.forEach(bar => barObserver.observe(bar));
 
-    // Lightbox
-    function openLightbox(title) {
-      document.getElementById('lightbox-title').textContent = title;
-      document.getElementById('lightbox').classList.add('open');
-    }
-    function closeLightbox() {
-      document.getElementById('lightbox').classList.remove('open');
+    // Contact form thank-you message
+    function showThankYou(event) {
+      document.getElementById("thank-you-message").style.display = "block";
     }
 
-    // Contact form
-    function handleFormSubmit() {
-      const name = document.getElementById('f-name').value;
-      const email = document.getElementById('f-email').value;
-      const msg = document.getElementById('f-message').value;
-      if (!name || !email || !msg) {
-        alert('Please fill in Name, Email, and Message.');
-        return;
-      }
-      document.getElementById('contactForm').style.display = 'none';
-      document.getElementById('formSuccess').style.display = 'block';
-    }/* ============================================================
-   LIGHTBOX FUNCTION
-============================================================ */
-
+    // Lightbox open/close
     function openLightbox(imageSrc, title = "Dashboard Preview") {
-
       const lightbox = document.getElementById("lightbox");
-
       const lightboxImg = document.getElementById("lightbox-img");
-
+      lightboxImg.innerHTML = `<img src="${imageSrc}" alt="${title}">`;
       lightbox.classList.add("active");
-
-      lightboxImg.innerHTML = `
-    <img src="${imageSrc}" 
-         alt="${title}" 
-         style="
-           width:100%;
-           height:100%;
-           object-fit:contain;
-           border-radius:12px;
-         ">
-  `;
-
     }
 
     function closeLightbox() {
-
       document.getElementById("lightbox").classList.remove("active");
-
+      document.getElementById("lightbox-img").innerHTML = "";
     }
   </script>
 
